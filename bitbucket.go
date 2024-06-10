@@ -1,5 +1,7 @@
 package bitbucket
 
+import "context"
+
 type users interface {
 	Get(username string) (*User, error)
 	Followers(username string) (interface{}, error)
@@ -158,6 +160,12 @@ type RepositoryOptions struct {
 	HasIssues   string `json:"has_issues"`
 	HasWiki     string `json:"has_wiki"`
 	Project     string `json:"project"`
+	ctx         context.Context
+}
+
+func (ro *RepositoryOptions) WithContext(ctx context.Context) *RepositoryOptions {
+	ro.ctx = ctx
+	return ro
 }
 
 type RepositoryForkOptions struct {
@@ -174,6 +182,12 @@ type RepositoryForkOptions struct {
 	HasIssues   string `json:"has_issues"`
 	HasWiki     string `json:"has_wiki"`
 	Project     string `json:"project"`
+	ctx         context.Context
+}
+
+func (fo *RepositoryForkOptions) WithContext(ctx context.Context) *RepositoryForkOptions {
+	fo.ctx = ctx
+	return fo
 }
 
 type RepositoryFilesOptions struct {
@@ -200,6 +214,12 @@ type RepositoryBlobWriteOptions struct {
 	Author   string `json:"author"`
 	Message  string `json:"message"`
 	Branch   string `json:"branch"`
+	ctx      context.Context
+}
+
+func (ro *RepositoryBlobWriteOptions) WithContext(ctx context.Context) *RepositoryBlobWriteOptions {
+	ro.ctx = ctx
+	return ro
 }
 
 // RepositoryRefOptions represents the options for describing a repository's refs (i.e.
@@ -285,6 +305,12 @@ type PullRequestsOptions struct {
 	States            []string `json:"states"`
 	Query             string   `json:"query"`
 	Sort              string   `json:"sort"`
+	ctx               context.Context
+}
+
+func (po *PullRequestsOptions) WithContext(ctx context.Context) *PullRequestsOptions {
+	po.ctx = ctx
+	return po
 }
 
 type PullRequestCommentOptions struct {
@@ -293,6 +319,12 @@ type PullRequestCommentOptions struct {
 	PullRequestID string `json:"id"`
 	Content       string `json:"content"`
 	CommentId     string `json:"-"`
+	ctx           context.Context
+}
+
+func (pco *PullRequestCommentOptions) WithContext(ctx context.Context) *PullRequestCommentOptions {
+	pco.ctx = ctx
+	return pco
 }
 
 type IssuesOptions struct {
@@ -311,6 +343,12 @@ type IssuesOptions struct {
 	Priority  string   `json:"priority"`
 	Version   string   `json:"version"`
 	Assignee  string   `json:"assignee"`
+	ctx       context.Context
+}
+
+func (io *IssuesOptions) WithContext(ctx context.Context) *IssuesOptions {
+	io.ctx = ctx
+	return io
 }
 
 type IssueCommentsOptions struct {
@@ -342,6 +380,12 @@ type CommitsOptions struct {
 	Exclude     string `json:"exclude"`
 	CommentID   string `json:"comment_id"`
 	Page        *int   `json:"page"`
+	ctx         context.Context
+}
+
+func (cm *CommitsOptions) WithContext(ctx context.Context) *CommitsOptions {
+	cm.ctx = ctx
+	return cm
 }
 
 type CommitStatusOptions struct {
@@ -363,6 +407,12 @@ type BranchRestrictionsOptions struct {
 	FullSlug string            `json:"full_slug"`
 	Name     string            `json:"name"`
 	Value    interface{}       `json:"value"`
+	ctx      context.Context
+}
+
+func (b *BranchRestrictionsOptions) WithContext(ctx context.Context) *BranchRestrictionsOptions {
+	b.ctx = ctx
+	return b
 }
 
 type DiffOptions struct {
@@ -393,6 +443,12 @@ type WebhooksOptions struct {
 	Url         string   `json:"url"`
 	Active      bool     `json:"active"`
 	Events      []string `json:"events"` // EX: {'repo:push','issue:created',..} REF: https://bit.ly/3FjRHHu
+	ctx         context.Context
+}
+
+func (wo *WebhooksOptions) WithContext(ctx context.Context) *WebhooksOptions {
+	wo.ctx = ctx
+	return wo
 }
 
 type RepositoryPipelineOptions struct {
@@ -424,6 +480,12 @@ type RepositoryPipelineVariableOptions struct {
 	Key      string `json:"key"`
 	Value    string `json:"value"`
 	Secured  bool   `json:"secured"`
+	ctx      context.Context
+}
+
+func (rpvo *RepositoryPipelineVariableOptions) WithContext(ctx context.Context) *RepositoryPipelineVariableOptions {
+	rpvo.ctx = ctx
+	return rpvo
 }
 
 type RepositoryPipelineVariableDeleteOptions struct {
@@ -455,6 +517,12 @@ type DownloadsOptions struct {
 	RepoSlug string `json:"repo_slug"`
 	FilePath string `json:"filepath"`
 	FileName string `json:"filename"`
+	ctx      context.Context
+}
+
+func (do *DownloadsOptions) WithContext(ctx context.Context) *DownloadsOptions {
+	do.ctx = ctx
+	return do
 }
 
 type PageRes struct {
@@ -512,6 +580,12 @@ type RepositoryEnvironmentOptions struct {
 	Name            string                          `json:"name"`
 	EnvironmentType RepositoryEnvironmentTypeOption `json:"environment_type"`
 	Rank            int                             `json:"rank"`
+	ctx             context.Context
+}
+
+func (reo *RepositoryEnvironmentOptions) WithContext(ctx context.Context) *RepositoryEnvironmentOptions {
+	reo.ctx = ctx
+	return reo
 }
 
 type RepositoryEnvironmentDeleteOptions struct {
@@ -539,6 +613,12 @@ type RepositoryDeploymentVariableOptions struct {
 	Key         string       `json:"key"`
 	Value       string       `json:"value"`
 	Secured     bool         `json:"secured"`
+	ctx         context.Context
+}
+
+func (rdvo *RepositoryDeploymentVariableOptions) WithContext(ctx context.Context) *RepositoryDeploymentVariableOptions {
+	rdvo.ctx = ctx
+	return rdvo
 }
 
 type RepositoryDeploymentVariableDeleteOptions struct {
@@ -554,4 +634,10 @@ type DeployKeyOptions struct {
 	Id       int    `json:"id"`
 	Label    string `json:"label"`
 	Key      string `json:"key"`
+	ctx      context.Context
+}
+
+func (dk *DeployKeyOptions) WithContext(ctx context.Context) *DeployKeyOptions {
+	dk.ctx = ctx
+	return dk
 }

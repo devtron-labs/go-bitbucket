@@ -262,7 +262,7 @@ func (r *Repository) Create(ro *RepositoryOptions) (*Repository, error) {
 		return nil, err
 	}
 	urlStr := r.c.requestUrl("/repositories/%s/%s", ro.Owner, ro.RepoSlug)
-	response, err := r.c.execute("POST", urlStr, data)
+	response, err := r.c.executeWithContext("POST", urlStr, data, ro.ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -276,7 +276,7 @@ func (r *Repository) Fork(fo *RepositoryForkOptions) (*Repository, error) {
 		return nil, err
 	}
 	urlStr := r.c.requestUrl("/repositories/%s/%s/forks", fo.FromOwner, fo.FromSlug)
-	response, err := r.c.execute("POST", urlStr, data)
+	response, err := r.c.executeWithContext("POST", urlStr, data, fo.ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -374,7 +374,7 @@ func (r *Repository) WriteFileBlob(ro *RepositoryBlobWriteOptions) error {
 
 	urlStr := r.c.requestUrl("/repositories/%s/%s/src", ro.Owner, ro.RepoSlug)
 
-	_, err := r.c.executeFileUpload("POST", urlStr, ro.FilePath, ro.FileName, ro.FileName, m)
+	_, err := r.c.executeFileUpload("POST", urlStr, ro.FilePath, ro.FileName, ro.FileName, m, ro.ctx)
 	return err
 }
 
@@ -692,7 +692,7 @@ func (r *Repository) AddPipelineVariable(rpvo *RepositoryPipelineVariableOptions
 	}
 	urlStr := r.c.requestUrl("/repositories/%s/%s/pipelines_config/variables/", rpvo.Owner, rpvo.RepoSlug)
 
-	response, err := r.c.execute("POST", urlStr, data)
+	response, err := r.c.executeWithContext("POST", urlStr, data, rpvo.ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -804,7 +804,7 @@ func (r *Repository) AddEnvironment(opt *RepositoryEnvironmentOptions) (*Environ
 		return nil, err
 	}
 	urlStr := r.c.requestUrl("/repositories/%s/%s/environments/", opt.Owner, opt.RepoSlug)
-	res, err := r.c.execute("POST", urlStr, body)
+	res, err := r.c.executeWithContext("POST", urlStr, body, opt.ctx)
 	if err != nil {
 		return nil, err
 	}
@@ -869,7 +869,7 @@ func (r *Repository) AddDeploymentVariable(opt *RepositoryDeploymentVariableOpti
 	}
 	urlStr := r.c.requestUrl("/repositories/%s/%s/deployments_config/environments/%s/variables", opt.Owner, opt.RepoSlug, opt.Environment.Uuid)
 
-	response, err := r.c.execute("POST", urlStr, body)
+	response, err := r.c.executeWithContext("POST", urlStr, body, opt.ctx)
 	if err != nil {
 		return nil, err
 	}
